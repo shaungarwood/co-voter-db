@@ -35,7 +35,7 @@ def search(query):
     res = []
     for x in mycol.find(query): 
         res.append(x.copy())
-    [clean_res[x] for x in res]
+    [clean_res(x) for x in res]
     return res
 
 def search_name(name):
