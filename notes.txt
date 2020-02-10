@@ -1,3 +1,7 @@
 http://coloradovoters.info/downloads/20190801/
 
 http://coloradovoters.info/downloads/20190801/Registered_Voters_List_%20Part1.zip
+
+set up an api to search db and then:
+should use this:
+https://npyscreen.readthedocs.io/introduction.html
