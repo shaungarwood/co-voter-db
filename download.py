@@ -44,4 +44,7 @@ while True:
     remove(filename + ".txt")
 
     print(f"there are {mycol.count_documents({})} records in db")
-    print("-"*20) part += 1 embed()
+    print("-"*20)
+    part += 1
+
+embed()
