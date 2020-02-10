@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
+import pprint
+import re
+
 import pymongo
 from IPython import embed
-import pprint
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["voters"]
@@ -40,9 +42,16 @@ def search(query):
 
 def search_name(name):
     first, last = name.split(" ")
+    first = first.upper()
+    last = last.upper()
     return search({"FIRST_NAME": first, "LAST_NAME": last})
 
-def clean_res(entry):
+def search_phone(num):
+    num = str(num)
+    num = re.sub(r'[\-\(\)\s]', '', num)
+    return search({"PHONE_NUM": num})
+
+def clean_res(entry): # i should do this the right way, copy
     for key in list(entry):
         if key in boring_fields or entry[key] == '':
             del entry[key]
