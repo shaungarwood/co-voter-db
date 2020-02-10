@@ -27,3 +27,9 @@ should use this:
 https://npyscreen.readthedocs.io/introduction.html
 
 - determine age
+
+mycol.count_documents({"PHONE_NUM": {"$ne": ''}})
+2_013_813
+
+mycol.count_documents({})
+3_876_309
