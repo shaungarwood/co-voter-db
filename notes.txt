@@ -27,3 +27,4 @@ should use this:
 https://npyscreen.readthedocs.io/introduction.html
 
 - determine age
+- create seperate collection for searching phone numbers only, return name and voter id
