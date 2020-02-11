@@ -6,6 +6,7 @@ import csv
 from requests import get
 
 from os import remove
+import re
 
 from zipfile import ZipFile
 
@@ -24,24 +25,28 @@ while True:
         print(f"could not download url: {url}")
         break
 
-    with open(filename + ".zip", 'wb') as f:
+    with open("downloads/" + filename + ".zip", 'wb') as f:
         f.write(res.content)
 
     print("  downloaded zip")
-    with ZipFile(filename + ".zip", 'r') as zipObj: 
+    with ZipFile("downloads/" + filename + ".zip", 'r') as zipObj:
         zipObj.extractall() 
 
     print("  writing to db")
-    with open(filename + ".txt", newline='', encoding="ISO-8859-1") as csvfile:
+    with open("downloads/" + filename + ".txt", newline='', encoding="ISO-8859-1") as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
         keys = next(spamreader)
         for row in spamreader:
             voter = zip(keys, row)
             voter = dict(voter)
+            phone_num = voter['PHONE_NUM']
+            if phone_num != '':
+                voter['PHONE_NUM'] = re.sub(r'[^\d]', '', phone_num)
+
             mycol.insert_one(voter)
     
-    remove(filename + ".zip")
-    remove(filename + ".txt")
+    # remove("downloads/" + filename + ".zip")
+    # remove("downloads/" + filename + ".txt")
 
     print(f"there are {mycol.count_documents({})} records in db")
     print("-"*20)
