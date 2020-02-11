@@ -9,6 +9,7 @@ from IPython import embed
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["voters"]
 mycol = mydb["2019-voters"]
+#mycol = mydb["phone-nums"]
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -48,7 +49,7 @@ def search_name(name):
 
 def search_phone(num):
     num = str(num)
-    num = re.sub(r'[\-\(\)\s]', '', num)
+    num = re.sub(r'[^\d]', '', num)
     return search({"PHONE_NUM": num})
 
 def clean_res(entry): # i should do this the right way, copy
