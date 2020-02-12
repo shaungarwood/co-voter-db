@@ -36,7 +36,7 @@ boring_fields = [
 
 def search(query):
     res = []
-    for x in mycol.find(query): 
+    for x in mycol.find(query):
         res.append(x.copy())
     [clean_res(x) for x in res]
     return res

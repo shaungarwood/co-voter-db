@@ -30,7 +30,7 @@ while True:
 
     print("  downloaded zip")
     with ZipFile("downloads/" + filename + ".zip", 'r') as zipObj:
-        zipObj.extractall() 
+        zipObj.extractall()
 
     print("  writing to db")
     with open("downloads/" + filename + ".txt", newline='', encoding="ISO-8859-1") as csvfile:
@@ -44,7 +44,7 @@ while True:
                 voter['PHONE_NUM'] = re.sub(r'[^\d]', '', phone_num)
 
             mycol.insert_one(voter)
-    
+
     # remove("downloads/" + filename + ".zip")
     # remove("downloads/" + filename + ".txt")
 

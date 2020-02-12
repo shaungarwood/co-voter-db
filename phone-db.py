@@ -20,5 +20,5 @@ for voter in voters:
    for key in interesting_keys:
        if key in voter:
            contact[key] = voter[key]
-   
+
    phone_col.insert_one(contact)
