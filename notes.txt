@@ -34,3 +34,29 @@ mycol.count_documents({"PHONE_NUM": {"$ne": ''}})
 
 mycol.count_documents({})
 3_876_309
+
+---
+
+mycol.find({"FIRST_NAME": "JOHN", "LAST_NAME": "SMITH"}).explain()['executionStats']                                           
+Out[1]: 
+{'executionSuccess': True,
+ 'nReturned': 1,
+ 'executionTimeMillis': 2238,
+ 'totalKeysExamined': 0,
+ 'totalDocsExamined': 3876309,
+ 'executionStages': {'stage': 'COLLSCAN',
+  'filter': {'$and': [{'FIRST_NAME': {'$eq': 'JOHN'}},
+    {'LAST_NAME': {'$eq': 'SMITH'}}]},
+  'nReturned': 1,
+  'executionTimeMillisEstimate': 2,
+  'works': 3876311,
+  'advanced': 1,
+  'needTime': 3876309,
+  'needYield': 0,
+  'saveState': 30283,
+  'restoreState': 30283,
+  'isEOF': 1,
+  'direction': 'forward',
+  'docsExamined': 3876309},
+ 'allPlansExecution': []}
+
