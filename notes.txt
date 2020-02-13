@@ -37,21 +37,22 @@ mycol.count_documents({})
 
 ---
 
-mycol.find({"FIRST_NAME": "JOHN", "LAST_NAME": "SMITH"}).explain()['executionStats']                                           
-Out[1]: 
+mycol.find({"FIRST_NAME": "JOHN", "LAST_NAME": "SMITH"}).explain()['executionStats']
+
+
 {'executionSuccess': True,
- 'nReturned': 1,
- 'executionTimeMillis': 2238,
+ 'nReturned': 196,
+ 'executionTimeMillis': 2272,
  'totalKeysExamined': 0,
  'totalDocsExamined': 3876309,
  'executionStages': {'stage': 'COLLSCAN',
   'filter': {'$and': [{'FIRST_NAME': {'$eq': 'JOHN'}},
     {'LAST_NAME': {'$eq': 'SMITH'}}]},
-  'nReturned': 1,
-  'executionTimeMillisEstimate': 2,
+  'nReturned': 196,
+  'executionTimeMillisEstimate': 9,
   'works': 3876311,
-  'advanced': 1,
-  'needTime': 3876309,
+  'advanced': 196,
+  'needTime': 3876114,
   'needYield': 0,
   'saveState': 30283,
   'restoreState': 30283,
@@ -59,4 +60,3 @@ Out[1]:
   'direction': 'forward',
   'docsExamined': 3876309},
  'allPlansExecution': []}
-
