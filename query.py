@@ -54,7 +54,7 @@ def search_phone(num):
 
 def clean_res(entry): # i should do this the right way, copy
     for key in list(entry):
-        if key in boring_fields or entry[key] == '':
+        if key in boring_fields or entry[key] == None:
             del entry[key]
 
 def print_res(res):
