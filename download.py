@@ -19,18 +19,18 @@ url_date = "20191201"
 while True:
     print(f"working on part {part}")
     filename = f"Registered_Voters_List_ Part{part}"
-    url = f"http://coloradovoters.info/downloads/{url_date}/{filename}.zip"
-    res = get(url)
-    if not res.ok:
-        print(f"could not download url: {url}")
-        break
-
-    with open("downloads/" + filename + ".zip", 'wb') as f:
-        f.write(res.content)
-
-    print("  downloaded zip")
-    with ZipFile("downloads/" + filename + ".zip", 'r') as zipObj:
-        zipObj.extractall()
+#     url = f"http://coloradovoters.info/downloads/{url_date}/{filename}.zip"
+#     res = get(url)
+#     if not res.ok:
+#         print(f"could not download url: {url}")
+#         break
+#
+#     with open("downloads/" + filename + ".zip", 'wb') as f:
+#         f.write(res.content)
+#
+#     print("  downloaded zip")
+#     with ZipFile("downloads/" + filename + ".zip", 'r') as zipObj:
+#         zipObj.extractall()
 
     print("  writing to db")
     with open("downloads/" + filename + ".txt", newline='', encoding="ISO-8859-1") as csvfile:
@@ -42,6 +42,10 @@ while True:
             phone_num = voter['PHONE_NUM']
             if phone_num != '':
                 voter['PHONE_NUM'] = re.sub(r'[^\d]', '', phone_num)
+
+            for x in voter:
+                if voter[x] == '':
+                    voter[x] = None
 
             mycol.insert_one(voter)
 
