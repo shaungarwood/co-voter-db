@@ -17,4 +17,4 @@ def search():
         return "No query data received", 200
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0')
