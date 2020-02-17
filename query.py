@@ -2,12 +2,6 @@ import re
 
 import pymongo
 
-client = pymongo.MongoClient("mongodb://localhost:27017/")
-db = client['voters']
-
-voters = db['2019-voters']
-phones = db["phone-nums"]
-
 boring_fields = [
     "ADDRESS_LIBRARY_ID",
     "CONGRESSIONAL",
@@ -29,45 +23,59 @@ boring_fields = [
     "_id"
 ]
 
-def dbsearch(query, collection=voters):
-    print(collection)
-    res = []
-    for x in collection.find(query):
-        res.append(x.copy())
-    [clean_res(x) for x in res]
-    return res
 
-def search_name(name):
-    first, last = name.split(" ")
-    first = first.upper()
-    last = last.upper()
-    return dbsearch({"FIRST_NAME": first, "LAST_NAME": last})
+class VoterRecords:
+    def __init__(self, db="localhost", port="27017"):
+        client = pymongo.MongoClient(f"mongodb://{db}:{port}/")
+        db = client['voters']
 
-def search_phone(num):
-    num = str(num)
-    num = re.sub(r'[^\d]', '', num)
-    return dbsearch({"PHONE_NUM": num}, phones)
+        self._col_voters = db['2019-voters']
+        self._col_phones = db["phone-nums"]
 
-def clean_res(entry): # i should do this the right way, copy
-    for key in list(entry):
-        if key in boring_fields or entry[key] == None:
-            del entry[key]
+    def dbsearch(self, query, collection='voters'):
+        res = []
+        if collection == 'voters':
+            for x in self._col_voters.find(query):
+                res.append(x.copy())
+        elif collection == 'phones':
+            for x in self._col_phones.find(query):
+                res.append(x.copy())
 
-def determine_query_type(search_string):
-    search_string = search_string.replace('_', ' ')
-    if len(re.findall(r'\d', search_string)) >= 10:
-        # phone
-        return search_phone(search_string)
-    elif re.search(r'^\d.+\w', search_string):
-        # address
-        pass
-    elif ' ' in search_string:
-        # name
-        return search_name(search_string)
-    else:
-        # unsure
-        print("unsure what to do with: ", search_string)
-        return []
+        [self.clean_res(x) for x in res]
+        return res
+
+    def search_name(self, name):
+        first, last = name.split(" ")
+        first = first.upper()
+        last = last.upper()
+        return self.dbsearch({"FIRST_NAME": first, "LAST_NAME": last})
+
+    def search_phone(self, num):
+        num = str(num)
+        num = re.sub(r'[^\d]', '', num)
+        return self.dbsearch({"PHONE_NUM": num}, 'phones')
+
+    def clean_res(self, entry):  # i should do this the right way, copy
+        for key in list(entry):
+            if key in boring_fields or entry[key] is None:
+                del entry[key]
+
+    def determine_query_type(self, search_string):
+        search_string = search_string.replace('_', ' ')
+        if len(re.findall(r'\d', search_string)) >= 10:
+            # phone
+            return self.search_phone(search_string)
+        elif re.search(r'^\d.+\w', search_string):
+            # address
+            pass
+        elif ' ' in search_string:
+            # name
+            return self.search_name(search_string)
+        else:
+            # unsure
+            print("unsure what to do with: ", search_string)
+            return []
+
 
 if __name__ == '__main__':
     import pprint
@@ -76,10 +84,12 @@ if __name__ == '__main__':
 
     pp = pprint.PrettyPrinter(indent=4)
 
+    vr = VoterRecords(db="localhost")
+
     def print_res(res):
         for x in res:
             voter_copy = x.copy()
-            clean_res(voter_copy)
+            vr.clean_res(voter_copy)
             pp.pprint(voter_copy)
 
     embed()
