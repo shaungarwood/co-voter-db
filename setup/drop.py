@@ -4,7 +4,7 @@ import pymongo
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["voters"]
-mycol = mydb["2019-voters"]
+mycol = mydb["phone-nums"]
 
 print(mycol.count_documents({}))
 mycol.drop()
