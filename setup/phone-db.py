@@ -14,7 +14,7 @@ interesting_keys = [
     'FIRST_NAME'
 ]
 
-voters = mycol.find({"PHONE_NUM": {"$ne": ''}})
+voters = mycol.find({"PHONE_NUM": {"$ne": None}})
 for voter in voters:
    contact = {"PHONE_NUM": voter["PHONE_NUM"]}
    for key in interesting_keys:
