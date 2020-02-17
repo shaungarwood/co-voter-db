@@ -39,13 +39,17 @@ while True:
         for row in spamreader:
             voter = zip(keys, row)
             voter = dict(voter)
-            phone_num = voter['PHONE_NUM']
-            if phone_num != '':
-                voter['PHONE_NUM'] = re.sub(r'[^\d]', '', phone_num)
 
             for x in voter:
                 if voter[x] == '':
                     voter[x] = None
+
+            if voter['PHONE_NUM'] != '':
+                voter['PHONE_NUM'] = re.sub(r'[^\d]', '', voter['PHONE_NUM')
+
+            if 'MIDDLE_INITIAL' not in voter:
+                if voter['MIDDLE_NAME'] is not None:
+                    voter['MIDDLE_INITIAL'] = voter['MIDDLE_NAME'][0:1]
 
             mycol.insert_one(voter)
 
