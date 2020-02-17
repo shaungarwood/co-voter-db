@@ -5,3 +5,11 @@ services:
     image: 'mongo'
     ports:
       - "27017:27017"
+
+  api:
+    build: .
+    environment:
+      - MONGODB_HOST=mongodb
+      - MONGODB_PORT=27017
+    ports:
+      - "5000:5000"
