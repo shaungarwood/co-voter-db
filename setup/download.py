@@ -45,7 +45,7 @@ while True:
                     voter[x] = None
 
             if voter['PHONE_NUM'] != '':
-                voter['PHONE_NUM'] = re.sub(r'[^\d]', '', voter['PHONE_NUM')
+                voter['PHONE_NUM'] = re.sub(r'[^\d]', '', voter['PHONE_NUM'])
 
             if 'MIDDLE_INITIAL' not in voter:
                 if voter['MIDDLE_NAME'] is not None:
