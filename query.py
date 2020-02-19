@@ -45,10 +45,17 @@ class VoterRecords:
         return res
 
     def search_name(self, name):
-        first, last = name.split(" ")
-        first = first.upper()
-        last = last.upper()
-        return self.dbsearch({"FIRST_NAME": first, "LAST_NAME": last})
+        search = {}
+        name = name.upper().split(" ")
+        if len(name) == 3:
+            if len(name[1]) == 1:
+                search['MIDDLE_INITIAL'] = name.pop(1)
+            else:
+                search['MIDDLE_NAME'] = name.pop(1)
+        search['LAST_NAME'] = name.pop()
+        search['FIRST_NAME'] = name.pop()
+
+        return self.dbsearch(search)
 
     def search_phone(self, num):
         num = str(num)
