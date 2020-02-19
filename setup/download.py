@@ -44,11 +44,14 @@ while True:
                 if voter[x] == '':
                     voter[x] = None
 
-            if voter['PHONE_NUM'] != '':
+            if voter['PHONE_NUM'] is not None:
                 voter['PHONE_NUM'] = re.sub(r'[^\d]', '', voter['PHONE_NUM'])
 
-            if 'MIDDLE_INITIAL' not in voter:
-                if voter['MIDDLE_NAME'] is not None:
+            if 'MIDDLE_INITIAL' not in voter and voter['MIDDLE_NAME'] is not None:
+                if len(voter['MIDDLE_NAME']) == 1:
+                    voter['MIDDLE_INITIAL'] = voter['MIDDLE_NAME']
+                    voter['MIDDLE_NAME'] = None
+                else:
                     voter['MIDDLE_INITIAL'] = voter['MIDDLE_NAME'][0:1]
 
             mycol.insert_one(voter)
