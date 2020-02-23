@@ -1,7 +1,6 @@
-import json
-
 from flask import Flask
 from flask import request
+from flask import jsonify
 from os import environ
 
 import query
@@ -26,7 +25,10 @@ def search():
     if request.args and 'q' in request.args:
         search_string = request.args['q']
         res = vr.determine_query_type(search_string)
-        return json.dumps(res)
+        resp = app.make_response(res)
+        resp.mimetype = 'application/json'
+
+        return jsonify(resp)
     else:
         return "No query data received", 200
 
