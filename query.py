@@ -29,7 +29,7 @@ class VoterRecords:
         client = pymongo.MongoClient(f"mongodb://{db}:{port}/")
         db = client['voters']
 
-        self._col_voters = db['2019-voters']
+        self._col_voters = db['2021-voters']
         self._col_phones = db["phone-nums"]
 
     def dbsearch(self, query, collection='voters'):
